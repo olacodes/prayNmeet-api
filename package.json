@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node server.js",
     "debug": "ndb server.js",
-    "prod": "nodemon server.js"
+    "prod": "nodemon server.js",
+    "test": "jest"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -14,12 +15,13 @@
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
+    "jest": "^25.1.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.5",
     "mongoose": "^5.9.4",
-    "validator": "^12.2.0",
-    "morgan": "^1.9.1"
-
+    "morgan": "^1.9.1",
+    "supertest": "^4.0.2",
+    "validator": "^12.2.0"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
@@ -31,5 +33,11 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.19.0",
     "prettier": "^1.19.1"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }
