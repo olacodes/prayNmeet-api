@@ -6,19 +6,20 @@ const mongoose = require('mongoose')
 
 const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD)
 const DB_LOCAL = process.env.DATABASE_LOCAL
+const DB_DOCKER = process.env.DATABASE_DOCKER
 
 console.log(process.env.NODE_ENV)
 
 
 if (process.env.NODE_ENV == 'development') {
-    mongoose.connect(DB_LOCAL, {
+    mongoose.connect(DB_DOCKER, {
         useNewUrlParser: true,
         useCreateIndex: true,
         useFindAndModify: false,
         useUnifiedTopology: true 
     })
     .then(con => console.log("Mongoose connect to development DB"))
-    .catch(err => console.log("An Error occured while trying to connect to development DB"))
+    .catch(err => console.log("An Error occured while trying to connect to development DB" + err))
 }
 
 else if (process.env.NODE_ENV == 'production') { 
