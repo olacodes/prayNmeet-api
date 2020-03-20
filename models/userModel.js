@@ -32,7 +32,6 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
     minlength: 5,
-    select: false
   },
   tokens: [
     {
@@ -54,6 +53,7 @@ userSchema.pre('save', async function(next) {
 });
 
 userSchema.methods.generateAuthToken = async function() {
+  // Generate Token for user
   const user = this;
   const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY);
   user.tokens = user.tokens.concat({ token });
@@ -61,21 +61,28 @@ userSchema.methods.generateAuthToken = async function() {
   return token;
 };
 
-userSchema.statics.findByCredentials = async (email, password) => {
-  // search for user by email and verify his password
-  const user = await this.User.findOne({ email });
+userSchema.statics.findByCredentials = async (username, password) => {
+  // search for user by username and verify his password
+  const user = await this.User.findOne({ username });
+  
   if (!user) {
     throw new Error({ error: 'Invalid login credentials' });
   }
+
+  // Check if the password is match using bcrypt compare built-in function 
   const isPasswordMatch = await bcrypt.compare(password, user.password);
-  if (!isPasswordMatch) {
-    throw new Error({ error: 'Invalid login credentials' });
+
+  if (!isPasswordMatch) {    
+    throw new Error({error: 'Login failed! Check authentication credentials'})
   }
   return user;
 };
+
 userSchema.statics.findAllUsers = async () => {
   const user = await this.User.find()
   return user
 }
+
+
 // Create Model for the schema Created
 exports.User = mongoose.model('User', userSchema);

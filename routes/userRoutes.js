@@ -1,11 +1,24 @@
-const express = require('express')
-const { createUser, getUser } = require('../controllers/userControllers')
-
-const router = express.Router()
+const express = require('express');
+const {
+  createUser,
+  getUsers,
+  getUser,
+  userLogin,
+} = require('../controllers/userControllers');
+const { checkBody } = require('../middlewares/userMiddlewares');
+const router = express.Router();
 
 router
-.route('/')
+  .route('/')
+  .get(getUsers)
+  .post(createUser);
+
+router
+.route('/:id')
 .get(getUser)
-.post(createUser)
+
+
+router.route('/login').post(checkBody, userLogin);
+// router.route('/:id/logout').post(userLogOut)
 
 module.exports = router;
